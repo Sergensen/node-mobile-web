@@ -1,21 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  AppRegistry
+} from 'react-native';
+import { Provider } from 'react-redux';
+import configureStore from './src/store/configureStore';
+import App from './src/containers/App';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
-  }
-}
+const store = configureStore();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const ReduxApp = () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+export default ReduxApp;
+
+AppRegistry.registerComponent('mobileClient', () => ReduxApp);
