@@ -1,19 +1,22 @@
+import { AsyncStorage } from 'react-native';
+
 class Auth {
   static async authenticateUser(token) {
     try {
       await AsyncStorage.setItem('token', token);
-    } catch (error) {}
+    } catch (error) {alert(error);}
   }
   static async isUserAuthenticated() {
     try {
       const value = await AsyncStorage.getItem('token');
-      return value!==null&&value!=="undefined"?true:false;
-    } catch (error) {}
+      alert(value);
+      return value===null?false:true;
+    } catch (error) {alert(error);}
   }
   static async deauthenticateUser() {
     try {
-      const value = await AsyncStorage.removeItem('token');
-    } catch (error) {}
+      await AsyncStorage.removeItem('token');
+    } catch (error) {alert(error);}
   }
   static async getToken() {
     try {
@@ -21,7 +24,7 @@ class Auth {
       if (value !== null){
         return value;
       }
-    } catch (error) {}
+    } catch (error) {alert(error);}
   }
 }
 export default Auth;

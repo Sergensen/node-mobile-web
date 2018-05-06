@@ -13,24 +13,25 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
-    this.toggleAuthenticateStatus()
+    this.toggleAuthenticateStatus();
   }
 
   toggleAuthenticateStatus() {
-    Auth.isUserAuthenticated().then(async (response) =>{
-      this.setState({ authenticated: response })
+    Auth.isUserAuthenticated().then(authenticated => {
+      this.setState({ authenticated });
     });
   }
 
   render() {
     const { actions, user } = this.props;
+    const { authenticated } = this.state;
     return (
       <View style={styles.mainView}>
         <StatusBar hidden />
         {!this.state.authenticated ? (
           <Login toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)} />
         ) : (
-          <Test onPress={3} style={styles.test} actions={actions} user={user} />
+          <Test toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)} onPress={3} style={styles.test} actions={actions} user={user} />
         )}
       </View>
     );
