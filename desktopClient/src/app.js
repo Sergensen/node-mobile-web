@@ -1,11 +1,5 @@
-import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
+import Main from './components/index.js';
 
-class App extends Component {
-  render(){
-    return <div>Hello {this.props.name}</div>;
-  }
-}
-
-const root = document.getElementById('root');
-ReactDOM.render(<App name="Sergen" />, root);
+ReactDOM.render(<Main />, document.getElementById('root'));
