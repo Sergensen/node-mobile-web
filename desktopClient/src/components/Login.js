@@ -9,21 +9,38 @@ export default class Login extends Component {
       error: '',
       email: '',
       name: '',
-      password: ''
+      password: '',
+      signup: false
     };
   }
   onChange(e){
     this.setState({[e.target.id]: e.target.value});
   }
+  toggleSignUp(e){
+    this.setState((prevState, props) => {
+      return {signup: !prevState.signup}
+    });
+  }
   render() {
-    const { email, password, name } = this.state;
+    const { email, password, name, signup } = this.state;
+    const login = !signup?
+      (<input id="login" onClick={this.login.bind(this)} type="button" value="login" />)
+    :
+      (<input id="signup" onClick={this.login.bind(this)} type="button" value="sign up" />);
+    const signupBtn = !signup?
+      (<input onClick={this.toggleSignUp.bind(this)} type="button" value="or sign up" />)
+    :
+      (<input onClick={this.toggleSignUp.bind(this)} type="button" value="back" />);
+    const nameBtn = signup?(
+        <input id="name" onChange={this.onChange.bind(this)} type="text" placeholder="Type name..." value={name} />
+    ):"";
     return (
       <div>
+        {login}
+        {signupBtn}
         <input id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
         <input id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
-        <input id="name" onChange={this.onChange.bind(this)} type="text" placeholder="Type name..." value={name} />
-        <input id="login" onClick={this.login.bind(this)} type="button" value="login" />
-        <input id="signup" onClick={this.login.bind(this)} type="button" value="sign up" />
+        {nameBtn}
       </div>
     );
   }

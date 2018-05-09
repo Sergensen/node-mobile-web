@@ -1,0 +1,24 @@
+{
+  "name": "scurr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd server && npm start\" \"cd mobileClient && npm start\"  \"cd desktopClient && npm start\"",
+    "app": "concurrently \"cd server && npm start\" \"cd mobileClient && npm start\"",
+    "desktop": "concurrently \"cd server && npm start\" \"cd desktopClient && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sergensen/dastm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sergensen/dastm/issues"
+  },
+  "homepage": "https://github.com/Sergensen/dastm#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.1"
+  }
+}
