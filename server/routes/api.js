@@ -108,21 +108,6 @@ router.post('/delete/request', (req, res, next) => {
   });
 });
 
-router.post('/delete/inrequest', (req, res, next) => {
-  User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
-    if (err) return res.status(404).json({
-      success: false,
-      message: "something went wrong"
-    });
-    getData(res, user.friends.filter(onlyUnique)).then((response)=>{
-      return res.status(200).json({
-        success: true,
-        message: response,
-      });
-    });
-  });
-});
-
 router.post('/friends', (req, res, next) => {
   User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
     if (err) return res.status(404).json({

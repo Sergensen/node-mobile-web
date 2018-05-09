@@ -22,7 +22,7 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://10.17.7.173:3000/auth/login',
+      url: 'http://192.168.178.77:3000/auth/login',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +40,7 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://10.17.7.173:3000/auth/signup',
+      url: 'http://192.168.178.77:3000/auth/signup',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
