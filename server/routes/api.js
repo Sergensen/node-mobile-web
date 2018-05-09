@@ -2,6 +2,30 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = new express.Router();
 const User = require('../models/user');
+const parse = require('jwt-decode');
+
+const onlyUnique = (value, index, self)=>{
+    return self.indexOf(value) === index;
+}
+
+async function getFriends(res, friends) {
+  let out = {};
+  for(let key in friends){
+    await User.findOne({_id: friends[key]}, (err, friend) => {
+      if(err) return res.status(404).json({
+        success: false,
+        message: "something went wrong"
+      });
+      const { name, _id, email } = friend;
+      out[_id] = {
+        name,
+        email
+      };
+    });
+  }
+  return out;
+}
+
 
 router.get('/user/:name', (req, res, next) => {
   User.find({name: req.params.name}, (err, user) => {
@@ -13,6 +37,28 @@ router.get('/user/:name', (req, res, next) => {
       success: true,
       message: user
     });
+  });
+});
+
+router.post('/friends', (req, res, next) => {
+  User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
+    if (err) return res.status(404).json({
+      success: false,
+      message: "something went wrong"
+    });
+    getFriends(res, user.friends.filter(onlyUnique)).then((response)=>{
+      return res.status(200).json({
+        success: true,
+        message: response,
+      });
+    });
+  });
+});
+
+router.post('/inrequests', (req, res, next) => {
+  return res.status(200).json({
+    success: true,
+    message: req
   });
 });
 
@@ -34,31 +80,32 @@ router.post('/add', (req, res, next) => {
           message: "already sent a request"
         });
       } else if (toUser.outRequests.indexOf(from) > -1){
-        /*add each other*/
-        return res.status(200).json({
-          success: true,
-          message: "added eachother"
-        });
+        fromUser.inRequests.splice(fromUser.inRequests.indexOf(to), 1);
+        toUser.outRequests.splice(toUser.outRequests.indexOf(from), 1);
+        fromUser.friends.push(to);
+        toUser.friends.push(from);
+        fromUser.friends.filter(onlyUnique);
+        toUser.friends.filter(onlyUnique);
       } else {
         fromUser.outRequests.push(to);
-        fromUser.save((err)=>{
-          if(err)return res.status(400).json({
-            success: false,
-            message: "update failed"
-          });
-        })
         toUser.inRequests.push(from);
-        toUser.save((err)=>{
-          if(err)return res.status(400).json({
-            success: false,
-            message: "update failed"
-          });
-        })
-        return res.status(200).json({
-          success: true,
-          message: "request sent"
-        });
       }
+      fromUser.save((err)=>{
+        if(err)return res.status(400).json({
+          success: false,
+          message: "update failed"
+        });
+      });
+      toUser.save((err)=>{
+        if(err)return res.status(400).json({
+          success: false,
+          message: "update failed"
+        });
+      });
+      return res.status(200).json({
+        success: true,
+        message: "request sent"
+      });
     });
   });
 });

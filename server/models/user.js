@@ -8,7 +8,7 @@ const User = new mongoose.Schema({
   },
   password: String,
   name: String,
-  friends: [Number],
+  friends: [String],
   inRequests: [String],
   outRequests: [String]
 });
