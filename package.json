@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd server && npm start\" \"cd mobileClient && npm start\"  \"cd desktopClient && npm start\"",
-    "app": "concurrently \"cd server && npm start\" \"cd mobileClient && npm start\"",
+    "start": "concurrently \"cd server && npm start\" \"cd mobileClient && exp start\"  \"cd desktopClient && npm start\"",
+    "app": "concurrently \"cd server && npm start\" \"cd mobileClient && exp start\"",
     "desktop": "concurrently \"cd server && npm start\" \"cd desktopClient && npm start\""
   },
   "repository": {

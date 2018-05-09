@@ -10,24 +10,28 @@ export default class Login extends Component {
       name: '',
       email: '',
       password: '',
-      error: ''
+      signup: false
     }
+  }
+  toggleSignUp(){
+    this.setState((prevState, props) => {
+      return {signup: !prevState.signup}
+    });
   }
   login() {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://192.168.178.77:3000/auth/login',
+      url: 'http://10.17.7.173:3000/auth/login',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
     .then((res) => this.success(res))
-    .catch((error) => this.setState({error}));
+    .catch((error) => alert(error));
   }
   success(res){
-    this.setState({error:''});
     Auth.authenticateUser(res.data.user).then(async (response) => {
       this.props.toggleAuthenticateStatus();
     });
@@ -36,47 +40,69 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://192.168.178.77:3000/auth/signup',
+      url: 'http://10.17.7.173:3000/auth/signup',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
-    .then((res) => this.success(res))
-    .catch((error) => this.setState({error}));
+    .then((res) => this.login())
+    .catch((error) => alert(error));
   }
   render() {
-    const { user, style } = this.props;
-    return (
-      <View style={style}>
-        <TouchableOpacity style={style} onPress={this.login.bind(this)}>
-          <Text style={styles.text}>
-          Login
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={style} onPress={this.signup.bind(this)}>
-          <Text style={styles.text}>
-          Signup
-          </Text>
-        </TouchableOpacity>
+    const { user } = this.props;
+    const { signup } = this.state;
+    const login = !signup?(
+      <TouchableOpacity style={styles.input} onPress={this.login.bind(this)}>
+        <Text style={styles.btn}>
+        Login
+        </Text>
+      </TouchableOpacity>
+    ):(
+      <TouchableOpacity style={styles.input} onPress={this.signup.bind(this)}>
+        <Text style={styles.btn}>
+        Signup
+        </Text>
+      </TouchableOpacity>
+    );
+    const signupBtn = !signup?(
+      <TouchableOpacity style={styles.input} onPress={this.toggleSignUp.bind(this)}>
+        <Text style={styles.btn}>
+        Or signup
+        </Text>
+      </TouchableOpacity>
+    ):(
+      <TouchableOpacity style={styles.input} onPress={this.toggleSignUp.bind(this)}>
+        <Text style={styles.btn}>
+        Back
+        </Text>
+      </TouchableOpacity>
+    );
+    const userName = signup?(
         <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder="type name"
+        style={styles.text}
+          placeholder=" type name"
           onChangeText={(name) => this.setState({name})}
           value={this.state.name}
-        />
+        />):"";
+    return (
+      <View style={styles.main}>
+        {userName}
         <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder="type email"
+        style={styles.text}
+          placeholder=" type email"
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
         />
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder="type password"
+          style={styles.text}
+          placeholder=" type password"
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
+          secureTextEntry={true}
         />
+        {login}
+        {signupBtn}
       </View>
     );
   }
@@ -84,7 +110,23 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    color: "red",
-    fontSize: 30
+    height: 60,
+    fontSize: 20,
+    backgroundColor: "#C2C2C2",
+    justifyContent: "center"
+  },
+  input: {
+    height: 60,
+    backgroundColor: "#B4B4B4",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  btn: {
+    fontSize: 30,
+    color: "white"
+  },
+  main: {
+    justifyContent: "center",
+    backgroundColor: "white"
   }
 });

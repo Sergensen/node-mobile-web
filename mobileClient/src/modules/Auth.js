@@ -4,19 +4,18 @@ class Auth {
   static async authenticateUser(token) {
     try {
       await AsyncStorage.setItem('token', token);
-    } catch (error) {alert(error);}
+    } catch (error) {}
   }
   static async isUserAuthenticated() {
     try {
       const value = await AsyncStorage.getItem('token');
-      alert(value);
       return value===null?false:true;
-    } catch (error) {alert(error);}
+    } catch (error) {}
   }
   static async deauthenticateUser() {
     try {
       await AsyncStorage.removeItem('token');
-    } catch (error) {alert(error);}
+    } catch (error) {}
   }
   static async getToken() {
     try {
@@ -24,7 +23,7 @@ class Auth {
       if (value !== null){
         return value;
       }
-    } catch (error) {alert(error);}
+    } catch (error) {}
   }
 }
 export default Auth;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View  } from 'react-native';
-import Auth from '../modules/Auth';
+import Auth from '../../modules/Auth';
 
-export default class Test extends Component {
+export default class App extends Component {
   onPress(){
     const { actions } = this.props;
     actions.test();
@@ -12,15 +12,15 @@ export default class Test extends Component {
     this.props.toggleAuthenticateStatus();
   }
   render() {
-    const { user, style } = this.props;
+    const { user } = this.props;
     return (
-      <View style={style}>
-        <TouchableOpacity style={style} onPress={this.onPress.bind(this)}>
+      <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.button} onPress={this.onPress.bind(this)}>
           <Text style={styles.text}>
             {user.test}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={style} onPress={this.logout.bind(this)}>
+        <TouchableOpacity style={styles.button} onPress={this.logout.bind(this)}>
           <Text style={styles.text}>
           Logout
           </Text>
@@ -32,7 +32,15 @@ export default class Test extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    color: "red",
+    color: "blue",
     fontSize: 30
+  },
+  button:{
+    justifyContent: "center",
+    flex: 1
+  },
+  wrapper:{
+    alignItems: "center",
+    flex: 1
   }
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, StatusBar } from 'react-native';
-import Test from './Test'
+import App from './application/App.js'
 import Auth from '../modules/Auth';
 import Login from './Login';
 
@@ -31,7 +31,7 @@ export default class Main extends Component {
         {!this.state.authenticated ? (
           <Login toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)} />
         ) : (
-          <Test toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)} onPress={3} style={styles.test} actions={actions} user={user} />
+          <App toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)} actions={actions} user={user} />
         )}
       </View>
     );
@@ -41,11 +41,5 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1
-  },
-  test: {
-    flex: 1,
-    backgroundColor: "lightgreen",
-    alignItems: "center",
-    justifyContent: "center"
   }
 });

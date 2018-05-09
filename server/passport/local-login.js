@@ -15,15 +15,15 @@ module.exports = new PassportLocalStrategy({
   return User.findOne({ email: userData.email }, (err, user) => {
     if (err) { return done(err); }
     if (!user) {
-      const error = new Error('Incorrect email or password');
-      error.name = 'IncorrectCredentialsError';
+      const error = new Error('Email or password is wrong');
+      error.name = 'IncorrectCredentials';
       return done(error);
     }
     return user.comparePassword(userData.password, (passwordErr, isMatch) => {
       if (err) { return done(err); }
       if (!isMatch) {
-        const error = new Error('Incorrect email or password');
-        error.name = 'IncorrectCredentialsError';
+        const error = new Error('Email or password is wrong');
+        error.name = 'IncorrectCredentials';
         return done(error);
       }
       const payload = {
