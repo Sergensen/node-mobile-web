@@ -42,8 +42,8 @@ export default class Dashboard extends Component {
         <input type="text" onChange={this.onChange.bind(this)} placeholder="Search user" />
         <button onClick={this.getUsers.bind(this)}>Find users</button>
         <Users users={users} />
-        <Requests />
         <Friends />
+        <Requests />
       </div>
     );
   }

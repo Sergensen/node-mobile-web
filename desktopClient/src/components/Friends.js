@@ -14,9 +14,15 @@ export default class Friends extends Component {
     this.getFriends();
   }
   render() {
+    const component = Object.keys(this.state.friends).length>0?(
+      <div style={styles.wrapper}>
+        <h4 style={{width:"100%"}}>Friends</h4>
+        {this.getUserFriends()}
+      </div>
+    ):"";
     return (
       <div>
-        {this.getUserFriends()}
+        {component}
       </div>
     );
   }
@@ -33,20 +39,29 @@ export default class Friends extends Component {
     .catch((error) => console.log(error));
   }
   deleteUser(e){
-
+    const data= "from="+parse(Auth.getToken()).sub+"&to="+e.target.id;
+    axios({
+      method: 'post',
+      url: 'http://localhost:3000/api/delete/friend',
+      data,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'bearer ' + Auth.getToken()
+      }
+    })
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error));
   }
   getUserFriends(){
     const { friends } = this.state;
-    console.log(friends);
     const out = [];
     for(let key in friends){
-      const { name, email, _id } = friends[key];
+      const { name, email, id } = friends[key];
       out.push(
         <div key={key} style={styles.wrapper}>
-          <h4 style={{width:"100%"}}>Friends</h4>
           <p style={styles.element}>{name}</p>
           <p style={styles.element}>{email}</p>
-          <button id={_id} onClick={this.deleteUser.bind(this)} style={styles.element}>{"Delete "+name+"!"}</button>
+          <button id={id} onClick={this.deleteUser.bind(this)} style={styles.element}>{"Delete "+name+"!"}</button>
         </div>
       );
     }
