@@ -16,11 +16,12 @@ export default class App extends Component {
   }
   render() {
     const { user, actions } = this.props;
+    const { friends, inRequests } = user;
     return (
       <ScrollView style={styles.wrapper}>
-        <Search />
-        <Requests />
-        <Friends />
+        <Search user={user} />
+        <Requests inRequests={inRequests} />
+        <Friends friends={friends} />
       </ScrollView>
     );
   }

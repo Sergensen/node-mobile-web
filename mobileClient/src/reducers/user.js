@@ -1,17 +1,12 @@
 import types from '../constants/types';
+import { getUser } from '../modules/Api';
+import Auth from '../modules/Auth';
+import axios from 'axios';
 
-const initialState = {
-  test: "lol",
-  addOn: "ol"
-};
-
-export default function user (state = initialState, action) {
+export default function user (state = {}, action) {
   switch (action.type) {
-    case types.TEST:
-      return {
-        ...state,
-        test: state.test+state.addOn
-      }
+    case types.SET_USER:
+      return action.user;
     default:
       return state;
   }

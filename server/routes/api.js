@@ -137,6 +137,19 @@ router.post('/inrequests', (req, res, next) => {
     });
   });
 });
+router.post('/userself', (req, res, next) => {
+  User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
+    if (err) return res.status(404).json({
+      success: false,
+      message: "something went wrong"
+    });
+    console.log(user);
+    return res.status(200).json({
+      success: true,
+      message: user
+    });
+  });
+});
 
 
 router.post('/add', (req, res, next) => {

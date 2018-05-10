@@ -45,10 +45,13 @@ export default class UserList extends Component {
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "grey"
   },
   button: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "red"
   },
   element: {
     flex: 1,

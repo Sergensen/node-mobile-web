@@ -1,3 +1,4 @@
 export default {
-  TEST: 'TEST'
+  TEST: 'TEST',
+  SET_USER: 'SET_USER'
 }
