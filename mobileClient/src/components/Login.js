@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { StyleSheet, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Auth from '../modules/Auth';
+import url from '../constants/config';
 
 export default class Login extends Component {
   constructor(props){
@@ -22,7 +23,7 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://192.168.178.77:3000/auth/login',
+      url: url+'/auth/login',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +41,7 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     axios({
       method: 'post',
-      url: 'http://192.168.178.77:3000/auth/signup',
+      url: url+'/auth/signup',
       data: "email="+email+"&password="+password+"&name="+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import UserList from './UserList';
 import Auth from '../../../modules/Auth';
 import axios from 'axios';
-
-const URL = "http://192.168.178.77:3000/";
+import url from '../../../constants/config';
 
 export default class Search extends Component {
   constructor(props){
@@ -18,7 +17,7 @@ export default class Search extends Component {
     Auth.getToken().then((response)=>{
       axios({
         method: 'get',
-        url: URL+'api/user/'+this.state.name,
+        url: url+'/api/user/'+this.state.name,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'bearer ' + response
@@ -32,6 +31,7 @@ export default class Search extends Component {
   }
   render() {
     const { users } = this.state;
+    const { outRequests } = this.props;
     return (
       <View style={styles.main}>
           <TextInput
@@ -45,7 +45,7 @@ export default class Search extends Component {
             Search
             </Text>
           </TouchableOpacity>
-          <UserList users={users} />
+          <UserList outRequests={outRequests} users={users} />
       </View>
     );
   }
