@@ -4,20 +4,10 @@ import parse from 'jwt-decode';
 import axios from 'axios';
 
 export default class Friends extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      friends: {}
-    }
-  }
-  componentDidMount(){
-    this.getFriends();
-  }
   render() {
-    const component = Object.keys(this.state.friends).length>0?(
+    const component = Object.keys(this.props.friends).length>0?(
       <div style={styles.wrapper}>
         <h4 style={{width:"100%"}}>Friends</h4>
-        {this.getUserFriends()}
       </div>
     ):"";
     return (
@@ -25,18 +15,6 @@ export default class Friends extends Component {
         {component}
       </div>
     );
-  }
-  getFriends(){
-    axios({
-      method: 'post',
-      url: 'http://localhost:3000/api/friends',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'bearer ' + Auth.getToken()
-      }
-    })
-    .then((res) => this.setState({friends: res.data.message}))
-    .catch((error) => console.log(error));
   }
   deleteUser(e){
     const data= "from="+parse(Auth.getToken()).sub+"&to="+e.target.id;
@@ -53,7 +31,7 @@ export default class Friends extends Component {
     .catch((error) => console.log(error));
   }
   getUserFriends(){
-    const { friends } = this.state;
+    const { friends } = this.props;
     const out = [];
     for(let key in friends){
       const { name, email, id } = friends[key];

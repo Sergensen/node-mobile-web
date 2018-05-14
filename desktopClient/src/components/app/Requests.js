@@ -4,17 +4,8 @@ import parse from 'jwt-decode';
 import axios from 'axios';
 
 export default class Requests extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      requests: {}
-    }
-  }
-  componentDidMount(){
-    this.getRequests();
-  }
   render() {
-    const component = Object.keys(this.state.requests).length>0?(
+    const component = Object.keys(this.props.requests).length>0?(
       <div style={styles.wrapper}>
         <h4 style={{width:"100%"}}>Requests</h4>
         {this.getUserRequests()}
@@ -25,18 +16,6 @@ export default class Requests extends Component {
         {component}
       </div>
     );
-  }
-  getRequests(){
-    axios({
-      method: 'post',
-      url: 'http://localhost:3000/api/inrequests',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'bearer ' + Auth.getToken()
-      }
-    })
-    .then((res) => this.setState({requests: res.data.message}))
-    .catch((error) => console.log(error));
   }
   deleteUser(e){
     const data= "from="+e.target.id+"&to="+parse(Auth.getToken()).sub;
@@ -67,7 +46,7 @@ export default class Requests extends Component {
     .catch((error) => console.log(error));
   }
   getUserRequests(){
-    const { requests } = this.state;
+    const { requests } = this.props;
     const out = [];
     for(let key in requests){
       const { name, email, id } = requests[key];
