@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Auth from '../modules/Auth';
+import Auth from '../../modules/Auth';
 import parse from 'jwt-decode';
 import axios from 'axios';
 

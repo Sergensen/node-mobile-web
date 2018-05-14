@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Auth from '../modules/Auth';
+import Auth from '../../modules/Auth';
 
 export default class Login extends Component {
   constructor(props) {
@@ -60,6 +60,6 @@ export default class Login extends Component {
   success(res){
     this.setState({error:''});
     Auth.authenticateUser(res.data.user);
-    this.props.toggleAuthenticateStatus()
+    this.props.history.replace("/");
   }
 }

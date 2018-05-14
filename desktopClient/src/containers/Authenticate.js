@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import Main from '../components/app/Dashboard';
+import Login from '../components/login/Login';
 import { connect } from 'react-redux';
 import * as actions from '../actions/actions';
 import { reduxForm } from 'redux-form';
 import Auth from '../modules/Auth';
 
-class Wrapper extends Component {
-  componentDidMount(){
-    if(!Auth.isUserAuthenticated()) this.props.history.replace("/Authenticate");
+class Authenticate extends Component {
+  componentDidMount() {
+    if(Auth.isUserAuthenticated()) this.props.history.replace("/");
   }
+
   render() {
-    const { user, history, setUser } = this.props;
-    return <Main history={history} user={user} setUser={setUser} />;
+    const { user, setUser, history } = this.props;
+    return <Login user={user} history={history} setUser={setUser} />;
   }
 }
 
 let form = reduxForm({
   form: 'DastM'
-})(Wrapper);
+})(Authenticate);
 
 form = connect((state, ownProps) => ({
     user: state.user

@@ -5,7 +5,7 @@ export default (state = {}, action = {}) => {
     case types.SET_USER:
       return {
         ...state,
-        action.user
+        user: action.user
       }
     default:
       return state;

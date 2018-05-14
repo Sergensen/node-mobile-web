@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Auth from '../modules/Auth';
+import Auth from '../../modules/Auth';
 import axios from 'axios';
 import Users from './Users';
 import Requests from './Requests';
@@ -15,7 +15,7 @@ export default class Dashboard extends Component {
   }
   logout(){
     Auth.deauthenticateUser();
-    this.props.toggleAuthenticateStatus();
+    this.props.history.replace("/Authenticate");
   }
   getUsers(){
     axios({
