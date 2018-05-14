@@ -10,8 +10,8 @@ class Wrapper extends Component {
     if(!Auth.isUserAuthenticated()) this.props.history.replace("/Authenticate");
   }
   render() {
-    const { user, history, setUser } = this.props;
-    return <Main history={history} user={user} setUser={setUser} />;
+    const { user, history, setUser, getUsers } = this.props;
+    return <Main history={history} userState={user} getUsers={getUsers} setUser={setUser} />;
   }
 }
 

@@ -4,13 +4,13 @@ import axios from 'axios';
 import Users from './Users';
 import Requests from './Requests';
 import Friends from './Friends';
+import { getUsers } from '../../modules/Api';
 
 export default class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state={
-      name:"",
-      users: []
+      name:""
     }
   }
   logout(){
@@ -18,23 +18,13 @@ export default class Dashboard extends Component {
     this.props.history.replace("/Authenticate");
   }
   getUsers(){
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/api/user/'+this.state.name,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'bearer ' + Auth.getToken()
-      }
-    })
-    .then((res) => this.setState({users: res.data.message}))
-    .catch((error) => console.log(error));
+    getUsers(this.state.name, this.props.getUsers);
   }
   onChange(e){
     this.setState({name:e.target.value});
   }
   render() {
-    const { users } = this.state;
-    console.log(users);
+    const { user, users } = this.props.userState;
     return (
       <div>
         You logged in!

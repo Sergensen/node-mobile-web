@@ -7,6 +7,11 @@ export default (state = {}, action = {}) => {
         ...state,
         user: action.user
       }
+    case types.GET_USERS:
+      return {
+        ...state,
+        users: action.users
+      }
     default:
       return state;
   }
