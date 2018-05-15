@@ -28,7 +28,8 @@ export default class Dashboard extends Component {
     this.setState({name:e.target.value});
   }
   render() {
-    const { user, users } = this.props.userState;
+    const { getFriend, userState } = this.props;
+    const { user, users } = userState;
     if(user){
       const { friends, inRequests, outRequests } = user;
       return (

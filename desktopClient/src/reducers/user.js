@@ -1,6 +1,6 @@
 import types from '../constants/actionTypes';
 
-export default (state = {}, action = {}) => {
+export default (state = {friends: []}, action = {}) => {
   switch (action.type) {
     case types.SET_USER:
       return {

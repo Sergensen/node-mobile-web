@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Main from '../components/app/Dashboard';
+import Dashboard from '../components/app/Dashboard';
 import { connect } from 'react-redux';
 import * as actions from '../actions/actions';
 import { reduxForm } from 'redux-form';
@@ -11,7 +11,7 @@ class Wrapper extends Component {
   }
   render() {
     const { user, history, setUser, getUsers } = this.props;
-    return <Main history={history} userState={user} getUsers={getUsers} setUser={setUser} />;
+    return <Dashboard history={history} userState={user} getUsers={getUsers} setUser={setUser} />;
   }
 }
 

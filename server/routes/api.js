@@ -28,7 +28,7 @@ async function getData(res, data) {
 }
 
 router.get('/user/:id', (req, res, next) => {
-  User.findOne({id: req.params.id}, (err, user) => {
+  User.findOne({_id: req.params.id}, (err, user) => {
     if (err) return res.status(404).json({
       success: false,
       message: "something went wrong"
@@ -40,7 +40,7 @@ router.get('/user/:id', (req, res, next) => {
   });
 });
 
-router.get('/user/:name', (req, res, next) => {
+router.get('/users/:name', (req, res, next) => {
   User.find({name: req.params.name}, (err, user) => {
     if (err) return res.status(404).json({
       success: false,
@@ -166,50 +166,76 @@ router.post('/userself', (req, res, next) => {
 
 router.post('/add', (req, res, next) => {
   const { from, to } = req.body;
-  User.findOne({_id: from}, (err, fromUser) => {
-    if (err) return res.status(404).json({
-      success: false,
-      message: "something went wrong"
-    });
-    User.findOne({_id: to}, (err,toUser) => {
+  if(from!==to){
+    User.findOne({_id: from}, (err, fromUser) => {
       if (err) return res.status(404).json({
         success: false,
         message: "something went wrong"
       });
-      if(toUser.inRequests.indexOf(from) > -1){
+      User.findOne({_id: to}, (err,toUser) => {
+        if (err) return res.status(404).json({
+          success: false,
+          message: "something went wrong"
+        });
+        if(toUser.inRequests.indexOf(from) > -1){
+          return res.status(200).json({
+            success: false,
+            message: "already sent a request"
+          });
+        } else if (toUser.outRequests.indexOf(from) > -1){
+          fromUser.inRequests.splice(fromUser.inRequests.indexOf(to), 1);
+          toUser.outRequests.splice(toUser.outRequests.indexOf(from), 1);
+          User.findOne({_id: to}, (err, toUser) => {
+            if (err) return res.status(404).json({
+              success: false,
+              message: "something went wrong"
+            });
+            fromUser.friends.push(toUser);
+            fromUser.save((err)=>{
+              if(err)return res.status(400).json({
+                success: false,
+                message: "update failed"
+              });
+            });
+          });
+          User.findOne({_id: from}, (err, fromUser) => {
+            if (err) return res.status(404).json({
+              success: false,
+              message: "something went wrong"
+            });
+            toUser.friends.push(fromUser);
+            toUser.save((err)=>{
+              if(err)return res.status(400).json({
+                success: false,
+                message: "update failed"
+              });
+            });
+          });
+          fromUser.friends.filter(onlyUnique);
+          toUser.friends.filter(onlyUnique);
+        } else {
+          fromUser.outRequests.push(to);
+          toUser.inRequests.push(from);
+          fromUser.save((err)=>{
+            if(err)return res.status(400).json({
+              success: false,
+              message: "update failed"
+            });
+          });
+          toUser.save((err)=>{
+            if(err)return res.status(400).json({
+              success: false,
+              message: "update failed"
+            });
+          });
+        }
         return res.status(200).json({
-          success: false,
-          message: "already sent a request"
+          success: true,
+          message: "request sent"
         });
-      } else if (toUser.outRequests.indexOf(from) > -1){
-        fromUser.inRequests.splice(fromUser.inRequests.indexOf(to), 1);
-        toUser.outRequests.splice(toUser.outRequests.indexOf(from), 1);
-        fromUser.friends.push(to);
-        toUser.friends.push(from);
-        fromUser.friends.filter(onlyUnique);
-        toUser.friends.filter(onlyUnique);
-      } else {
-        fromUser.outRequests.push(to);
-        toUser.inRequests.push(from);
-      }
-      fromUser.save((err)=>{
-        if(err)return res.status(400).json({
-          success: false,
-          message: "update failed"
-        });
-      });
-      toUser.save((err)=>{
-        if(err)return res.status(400).json({
-          success: false,
-          message: "update failed"
-        });
-      });
-      return res.status(200).json({
-        success: true,
-        message: "request sent"
       });
     });
-  });
+  }
 });
 
 module.exports = router;

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Auth from '../../modules/Auth';
-import { deleteUser } from '../../modules/Api';
-import parse from 'jwt-decode';
-import axios from 'axios';
+import FriendsCard from './FriendsCard';
 
 export default class Friends extends Component {
   render() {
@@ -11,29 +9,18 @@ export default class Friends extends Component {
         <h4 style={{width:"100%"}}>Friends</h4>
         {this.getUserFriends()}
       </div>
-    ):"";
+    ):<div />;
     return (
       <div>
         {component}
       </div>
     );
   }
-  deleteUser(e){
-    deleteUser(e.target.id);
-  }
   getUserFriends(){
     const { friends } = this.props;
     const out = [];
     for(let key in friends){
-      const { name, email, id } = friends[key];
-      console.log(friends);
-      out.push(
-        <div key={key} style={styles.wrapper}>
-          <p style={styles.element}>{name}</p>
-          <p style={styles.element}>{email}</p>
-          <button id={id} onClick={this.deleteUser.bind(this)} style={styles.element}>{"Delete "+name+"!"}</button>
-        </div>
-      );
+      out.push(<FriendsCard key={key} friend={friends[key]} />);
     }
     return out;
   }

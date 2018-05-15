@@ -1,4 +1,5 @@
 export default {
   SET_USER: 'SET_USER',
-  GET_USERS: 'GET_USERS'
+  GET_USERS: 'GET_USERS',
+  DELETE_USER: 'DELETE_USER'
 };
