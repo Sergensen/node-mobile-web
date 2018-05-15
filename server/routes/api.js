@@ -27,6 +27,19 @@ async function getData(res, data) {
   return out;
 }
 
+router.get('/user/:id', (req, res, next) => {
+  User.findOne({id: req.params.id}, (err, user) => {
+    if (err) return res.status(404).json({
+      success: false,
+      message: "something went wrong"
+    });
+    return res.status(200).json({
+      success: true,
+      message: user
+    });
+  });
+});
+
 router.get('/user/:name', (req, res, next) => {
   User.find({name: req.params.name}, (err, user) => {
     if (err) return res.status(404).json({
@@ -68,7 +81,7 @@ router.post('/delete/friend', (req, res, next) => {
       });
       return res.status(200).json({
         success: true,
-        message: "request sent"
+        message: "deleted user"
       });
     });
   });
@@ -143,7 +156,6 @@ router.post('/userself', (req, res, next) => {
       success: false,
       message: "something went wrong"
     });
-    console.log(user);
     return res.status(200).json({
       success: true,
       message: user
@@ -154,7 +166,6 @@ router.post('/userself', (req, res, next) => {
 
 router.post('/add', (req, res, next) => {
   const { from, to } = req.body;
-  console.log(from, "dddd", to)
   User.findOne({_id: from}, (err, fromUser) => {
     if (err) return res.status(404).json({
       success: false,

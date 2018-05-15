@@ -35,7 +35,7 @@ export default class Dashboard extends Component {
         <div>
           You logged in!
           <button style={{width:"100%", marginBottom: 30}} onClick={this.logout.bind(this)}>Logout</button>
-          <input type="text" onChange={this.onChange.bind(this)} placeholder="Search user" />
+          <input type="text" onKeyUp={this.getUsers.bind(this)} onChange={this.onChange.bind(this)} placeholder="Search user" />
           <button onClick={this.getUsers.bind(this)}>Find users</button>
           <Users users={users} />
           <Friends friends={friends} />
