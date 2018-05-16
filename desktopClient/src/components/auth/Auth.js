@@ -36,6 +36,9 @@ const styles = {
     marginTop: "20px"
   },
   toggleSignUp: {
-    width: "100%"
+    width: "100%",
+    height: "50px",
+    backgroundColor: "white",
+    border: "1px solid grey"
   }
 }

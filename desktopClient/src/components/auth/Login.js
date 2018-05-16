@@ -19,15 +19,15 @@ export default class Login extends Component {
     const { email, password } = this.state;
     return (
       <div>
-        <input id="login" onClick={this.login.bind(this)} type="button" value="login" />
-        <input id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
-        <input id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
+        <input style={styles.button} id="login" onClick={this.login.bind(this)} type="button" value="login" />
+        <input style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
+        <input style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
       </div>
     );
   }
   login(e) {
     const { email, password } = this.state;
-    auth("login", this.handleLogin, email, password);
+    auth("login", this.handleLogin.bind(this), email, password);
   }
   handleLogin(feedback){
     const { error, res} = feedback;
@@ -38,5 +38,21 @@ export default class Login extends Component {
     this.setState({error:''});
     Auth.authenticateUser(res.data.user);
     this.props.history.replace("/");
+  }
+}
+
+const styles = {
+  input: {
+    width: "100%",
+    border: "1px solid grey",
+    boxSizing: "border-box",
+    height: "50px",
+    backgroundColor: "white"
+  },
+  button: {
+    width: "100%",
+    height: "50px",
+    backgroundColor: "white",
+    border: "1px solid grey"
   }
 }
