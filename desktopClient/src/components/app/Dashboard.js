@@ -14,7 +14,7 @@ export default class Dashboard extends Component {
     }
   }
   componentDidMount(){
-    setUser(this.props.setUser);
+    setUser(this.props.setUser, this.logout.bind(this));
   }
 
   logout(){

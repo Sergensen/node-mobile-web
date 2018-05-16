@@ -12,7 +12,6 @@ export const getUsers = (name, getUsersAction) => {
   })
   .then((res) => {
     getUsersAction(res.data.message);
-    console.log(res.data.message)
   })
   .catch((error) => console.log(error));
 }
@@ -32,7 +31,7 @@ export const deleteUser = (id) => {
   .catch((error) => console.log(error));
 }
 
-export const setUser = (setUserAction) => {
+export const setUser = (setUserAction, logout) => {
   axios({
     method: 'post',
     url: 'http://localhost:3000/api/userself/',
@@ -44,5 +43,5 @@ export const setUser = (setUserAction) => {
   .then((res) => {
     setUserAction(res.data.message);
   })
-  .catch((error) => console.log(error));
+  .catch((error) => logout());
 }

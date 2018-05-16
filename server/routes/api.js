@@ -27,19 +27,6 @@ async function getData(res, data) {
   return out;
 }
 
-router.get('/user/:id', (req, res, next) => {
-  User.findOne({_id: req.params.id}, (err, user) => {
-    if (err) return res.status(404).json({
-      success: false,
-      message: "something went wrong"
-    });
-    return res.status(200).json({
-      success: true,
-      message: user
-    });
-  });
-});
-
 router.get('/users/:name', (req, res, next) => {
   User.find({name: req.params.name}, (err, user) => {
     if (err) return res.status(404).json({
@@ -121,35 +108,6 @@ router.post('/delete/request', (req, res, next) => {
   });
 });
 
-router.post('/friends', (req, res, next) => {
-  User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
-    if (err) return res.status(404).json({
-      success: false,
-      message: "something went wrong"
-    });
-    getData(res, user.friends.filter(onlyUnique)).then((response)=>{
-      return res.status(200).json({
-        success: true,
-        message: response,
-      });
-    });
-  });
-});
-
-router.post('/inrequests', (req, res, next) => {
-  User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
-    if (err) return res.status(404).json({
-      success: false,
-      message: "something went wrong"
-    });
-    getData(res, user.inRequests.filter(onlyUnique)).then((response)=>{
-      return res.status(200).json({
-        success: true,
-        message: response,
-      });
-    });
-  });
-});
 router.post('/userself', (req, res, next) => {
   User.findOne({_id: parse(req.headers.authorization.slice(7)).sub}, (err, user) => {
     if (err) return res.status(404).json({
@@ -177,45 +135,33 @@ router.post('/add', (req, res, next) => {
           success: false,
           message: "something went wrong"
         });
-        if(toUser.inRequests.indexOf(from) > -1){
+        if(toUser.inRequests.indexOf(fromUser) > -1){
           return res.status(200).json({
             success: false,
             message: "already sent a request"
           });
-        } else if (toUser.outRequests.indexOf(from) > -1){
-          fromUser.inRequests.splice(fromUser.inRequests.indexOf(to), 1);
-          toUser.outRequests.splice(toUser.outRequests.indexOf(from), 1);
-          User.findOne({_id: to}, (err, toUser) => {
-            if (err) return res.status(404).json({
+        } else if (toUser.outRequests.indexOf(fromUser) > -1){
+          fromUser.inRequests.splice(fromUser.inRequests.indexOf(toUser), 1);
+          toUser.outRequests.splice(toUser.outRequests.indexOf(fromUser), 1);
+          fromUser.friends.push(toUser);
+          fromUser.save((err)=>{
+            if(err)return res.status(400).json({
               success: false,
-              message: "something went wrong"
-            });
-            fromUser.friends.push(toUser);
-            fromUser.save((err)=>{
-              if(err)return res.status(400).json({
-                success: false,
-                message: "update failed"
-              });
+              message: "update failed"
             });
           });
-          User.findOne({_id: from}, (err, fromUser) => {
-            if (err) return res.status(404).json({
+          toUser.friends.push(fromUser);
+          toUser.save((err)=>{
+            if(err)return res.status(400).json({
               success: false,
-              message: "something went wrong"
-            });
-            toUser.friends.push(fromUser);
-            toUser.save((err)=>{
-              if(err)return res.status(400).json({
-                success: false,
-                message: "update failed"
-              });
+              message: "update failed"
             });
           });
           fromUser.friends.filter(onlyUnique);
           toUser.friends.filter(onlyUnique);
         } else {
-          fromUser.outRequests.push(to);
-          toUser.inRequests.push(from);
+          fromUser.outRequests.push(toUser);
+          toUser.inRequests.push(fromUser);
           fromUser.save((err)=>{
             if(err)return res.status(400).json({
               success: false,
