@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Login from '../components/login/Login';
+import AuthForm from '../components/auth/Auth';
 import { connect } from 'react-redux';
 import * as actions from '../actions/actions';
 import { reduxForm } from 'redux-form';
@@ -12,7 +12,7 @@ class Authenticate extends Component {
 
   render() {
     const { user, setUser, history } = this.props;
-    return <Login user={user} history={history} setUser={setUser} />;
+    return <AuthForm user={user} history={history} setUser={setUser} />;
   }
 }
 

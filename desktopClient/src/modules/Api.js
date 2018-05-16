@@ -31,6 +31,19 @@ export const deleteUser = (id) => {
   .catch((error) => console.log(error));
 }
 
+export const auth = (endpoint, callback, email, password, name, surname, username) => {
+  axios({
+    method: 'post',
+    url: 'http://localhost:3000/auth/'+endpoint,
+    data: "email="+email+"&password="+password+"&name="+name+"&surname="+surname+"&username="+username,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+  .then((res) => callback({res}))
+  .catch((error) => callback({error}));
+}
+
 export const setUser = (setUserAction, logout) => {
   axios({
     method: 'post',

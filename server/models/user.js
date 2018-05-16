@@ -8,6 +8,8 @@ const User = new mongoose.Schema({
   },
   password: String,
   name: String,
+  surname: String,
+  username: String,
   friends: [String],
   inRequests: [String],
   outRequests: [String]
