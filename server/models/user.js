@@ -10,9 +10,27 @@ const User = new mongoose.Schema({
   name: String,
   surname: String,
   username: String,
-  friends: [String],
-  inRequests: [String],
-  outRequests: [String]
+  friends: [{email: {
+    type: String,
+    index: { unique: Boolean }
+  },
+  name: String,
+  surname: String,
+  username: String}],
+  inRequests: [{email: {
+    type: String,
+    index: { unique: Boolean }
+  },
+  name: String,
+  surname: String,
+  username: String}],
+  outRequests: [{email: {
+    type: String,
+    index: { unique: Boolean }
+  },
+  name: String,
+  surname: String,
+  username: String}]
 });
 
 User.methods.comparePassword = function comparePassword(password, callback) {

@@ -7,7 +7,7 @@ export default class Requests extends Component {
   render() {
     const component = Object.keys(this.props.requests).length>0?(
       <div style={styles.wrapper}>
-        <h4 style={{width:"100%"}}>Requests</h4>
+        <p style={styles.header}>Requests</p>
         {this.getUserRequests()}
       </div>
     ):"";
@@ -51,11 +51,11 @@ export default class Requests extends Component {
     for(let key in requests){
       const { name, email, id } = requests[key];
       out.push(
-        <div key={key} style={styles.wrapper}>
-          <p style={styles.element}>{name}</p>
-          <p style={styles.element}>{email}</p>
-          <button id={id} onClick={this.addUser.bind(this)} style={styles.element}>{"Add "+name+"!"}</button>
-          <button id={id} onClick={this.deleteUser.bind(this)} style={styles.element}>{"Delete request!"}</button>
+        <div key={key} style={styles.element}>
+          <p style={styles.data}>{name}</p>
+          <p style={styles.data}>{email}</p>
+          <button id={id} onClick={this.addUser.bind(this)} style={styles.button}>{"Add"}</button>
+          <button id={id} onClick={this.deleteUser.bind(this)} style={styles.button}>{"Delete"}</button>
         </div>
       );
     }
@@ -68,11 +68,32 @@ const styles={
     width: "100%",
     boxSizing: "border-box",
     display: "inline-block",
-    border:"1px solid black"
+  },
+  header:{
+    fontSize: 15,
+    height: "20px",
+    margin: 3,
+    marginBottom: 1,
+    fontFamily: "arial"
   },
   element:{
-    width: "50%",
+    width: "100%",
+    display: "inline-block",
     boxSizing: "border-box",
-    display: "inline-block"
+    border: "1px solid grey",
+    margin: 0,
+    padding: 5
+  },
+  data:{
+    width: "35%",
+    boxSizing: "border-box",
+    display: "inline-block",
+    margin: 0
+  },
+  button: {
+    border: "1px solid grey",
+    boxSizing: "border-box",
+    width: "15%",
+    backgroundColor: "white"
   }
 }

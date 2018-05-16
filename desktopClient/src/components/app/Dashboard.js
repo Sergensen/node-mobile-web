@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
       const { friends, inRequests, outRequests } = user;
       return (
         <div style={styles.wrapper}>
-          <button style={{width:"100%", marginBottom: 30}} onClick={this.logout.bind(this)}>Logout</button>
+          <button style={styles.button} onClick={this.logout.bind(this)}>Logout</button>
           <Search getUsers={getUsers} />
           <Users users={users} />
           <Friends friends={friends} />
@@ -47,5 +47,12 @@ const styles = {
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: "20px"
+  },
+  button: {
+    marginBottom: "10px",
+    width: "100%",
+    backgroundColor: "white",
+    height: "50px",
+    border: "1px solid grey"
   }
 }

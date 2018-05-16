@@ -32,9 +32,11 @@ export default class Users extends Component {
       const { name, email, _id } = users[key];
       out.push(
         <div key={key} style={styles.wrapper}>
-          <p style={styles.element}>{name}</p>
-          <p style={styles.element}>{email}</p>
-          <button style={styles.element} id={_id} onClick={this.addUser.bind(this)}>{"Add "+name+"!"}</button>
+          <div style={styles.data}>
+            <p style={styles.element}>{name}</p>
+            <p style={styles.element}>{email}</p>
+          </div>
+          <button style={styles.button} id={_id} onClick={this.addUser.bind(this)}>{"Add "+name+"!"}</button>
         </div>
       );
     }
@@ -47,11 +49,26 @@ const styles={
     width: "100%",
     boxSizing: "border-box",
     display: "inline-block",
-    border:"1px solid black"
+    height: "30px",
+    border:"1px solid grey"
   },
   element:{
-    width: "33%",
+    width: "50%",
+    display: "inline-block",
+    boxSizing: "border-box",
+    margin: 0
+  },
+  data:{
+    width: "70%",
+    height: "30px",
     boxSizing: "border-box",
     display: "inline-block"
+  },
+  button: {
+    border: "1px solid grey",
+    boxSizing: "border-box",
+    width: "30%",
+    height: "28px",
+    backgroundColor: "white"
   }
 }

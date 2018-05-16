@@ -16,10 +16,28 @@ export default class Friends extends Component {
   }
   render() {
     return (
-      <div>
-        <input type="text" onKeyUp={this.getUsers.bind(this)} onChange={this.onChange.bind(this)} placeholder="Search user" />
-        <button onClick={this.getUsers.bind(this)}>Find users</button>
+      <div style={styles.wrapper}>
+        <input style={styles.input} type="text" onKeyUp={this.getUsers.bind(this)} onChange={this.onChange.bind(this)} placeholder="Search user" />
+        <button style={styles.button} onClick={this.getUsers.bind(this)}>Find users</button>
       </div>
     );
+  }
+}
+const styles = {
+  wrapper: {
+    width: "100%"
+  },
+  input: {
+    boxSizing: "border-box",
+    width: "70%",
+    height: "30px",
+    border: "1px solid grey",
+    marginBottom: "10px"
+  },
+  button: {
+    border: "1px solid grey",
+    width: "30%",
+    height: "30px",
+    backgroundColor: "white"
   }
 }
