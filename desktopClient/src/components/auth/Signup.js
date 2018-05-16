@@ -20,12 +20,12 @@ export default class Signup extends Component {
     const { email, password, name, surname, username } = this.state;
     return (
       <div>
-        <input style={styles.button} id="signup" onClick={this.signup.bind(this)} type="button" value="Create account!" />
         <input style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
         <input style={styles.input} id="username" onChange={this.onChange.bind(this)} type="text" placeholder="Type username..." value={username} />
         <input style={styles.input} id="name" onChange={this.onChange.bind(this)} type="text" placeholder="Type name..." value={name} />
         <input style={styles.input} id="surname" onChange={this.onChange.bind(this)} type="text" placeholder="Type surname..." value={surname} />
         <input style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
+        <input style={styles.button} id="signup" onClick={this.signup.bind(this)} type="button" value="Create account!" />
       </div>
     );
   }

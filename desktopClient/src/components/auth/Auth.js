@@ -22,7 +22,7 @@ export default class Auth extends Component {
     return (
       <div style={styles.wrapper}>
         {component}
-        <button style={styles.toggleSignUp} onClick={this.toggleSignUp.bind(this)}>{"..or "+(!signup?"signup":"login")}</button>
+        <button style={styles.toggleSignUp} onClick={this.toggleSignUp.bind(this)}>{(!signup?"Or sign up":"Back")}</button>
       </div>
     );
   }

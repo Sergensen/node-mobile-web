@@ -19,9 +19,9 @@ export default class Login extends Component {
     const { email, password } = this.state;
     return (
       <div>
-        <input style={styles.button} id="login" onClick={this.login.bind(this)} type="button" value="login" />
         <input style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
         <input style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
+        <input style={styles.button} id="login" onClick={this.login.bind(this)} type="button" value="Login" />
       </div>
     );
   }
