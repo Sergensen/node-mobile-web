@@ -2,17 +2,12 @@ import React, { Component } from 'react';
 import Auth from '../../modules/Auth';
 import axios from 'axios';
 import Users from './Users';
+import Search from './Search';
 import Requests from './Requests';
 import Friends from './Friends';
-import { getUsers, setUser } from '../../modules/Api';
+import { setUser } from '../../modules/Api';
 
 export default class Dashboard extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      name:""
-    }
-  }
   componentDidMount(){
     setUser(this.props.setUser, this.logout.bind(this));
   }
@@ -21,23 +16,16 @@ export default class Dashboard extends Component {
     Auth.deauthenticateUser();
     this.props.history.replace("/Authenticate");
   }
-  getUsers(){
-    getUsers(this.state.name, this.props.getUsers);
-  }
-  onChange(e){
-    this.setState({name:e.target.value});
-  }
+
   render() {
-    const { getFriend, userState } = this.props;
+    const { getFriend, userState, getUsers } = this.props;
     const { user, users } = userState;
     if(user){
       const { friends, inRequests, outRequests } = user;
       return (
-        <div>
-          You logged in!
+        <div style={styles.wrapper}>
           <button style={{width:"100%", marginBottom: 30}} onClick={this.logout.bind(this)}>Logout</button>
-          <input type="text" onKeyUp={this.getUsers.bind(this)} onChange={this.onChange.bind(this)} placeholder="Search user" />
-          <button onClick={this.getUsers.bind(this)}>Find users</button>
+          <Search getUsers={getUsers} />
           <Users users={users} />
           <Friends friends={friends} />
           <Requests requests={inRequests} />
@@ -50,6 +38,14 @@ export default class Dashboard extends Component {
         </div>
       );
     }
+  }
+}
 
+const styles = {
+  wrapper: {
+    width: "80%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "20px"
   }
 }
