@@ -31,7 +31,7 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
     return axios({
       method: "POST",
-      url: AUTH_API + path,
+      url: url + '/auth' + path,
       data: "email=" + email + "&password=" + password + "&name=" + name,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -41,7 +41,7 @@ export default class Login extends Component {
 
   login() {
     this.sendRequest("/login")
-      .then(this.success)
+      .then(response => this.success(response))
       .catch(alert);
   }
 
@@ -59,10 +59,10 @@ export default class Login extends Component {
         <Text style={styles.btn}>Login</Text>
       </TouchableOpacity>
     ) : (
-      <TouchableOpacity style={styles.input} onPress={this.signup.bind(this)}>
-        <Text style={styles.btn}>Signup</Text>
-      </TouchableOpacity>
-    );
+        <TouchableOpacity style={styles.input} onPress={this.signup.bind(this)}>
+          <Text style={styles.btn}>Signup</Text>
+        </TouchableOpacity>
+      );
     const signupBtn = !signup ? (
       <TouchableOpacity
         style={styles.input}
@@ -71,13 +71,13 @@ export default class Login extends Component {
         <Text style={styles.btn}>Or signup</Text>
       </TouchableOpacity>
     ) : (
-      <TouchableOpacity
-        style={styles.input}
-        onPress={this.toggleSignUp.bind(this)}
-      >
-        <Text style={styles.btn}>Back</Text>
-      </TouchableOpacity>
-    );
+        <TouchableOpacity
+          style={styles.input}
+          onPress={this.toggleSignUp.bind(this)}
+        >
+          <Text style={styles.btn}>Back</Text>
+        </TouchableOpacity>
+      );
     const userName = signup ? (
       <TextInput
         style={styles.text}
@@ -86,8 +86,8 @@ export default class Login extends Component {
         value={this.state.name}
       />
     ) : (
-      ""
-    );
+        ""
+      );
 
     return (
       <View>

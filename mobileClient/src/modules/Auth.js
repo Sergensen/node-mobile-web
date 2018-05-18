@@ -5,10 +5,13 @@ class Auth {
     try {
       await AsyncStorage.setItem("token", token);
     } catch (error) {
+      alert(1)
       console.log(error);
       alert(error);
+      alert(2)
     }
   }
+
   static async isUserAuthenticated() {
     try {
       const value = await AsyncStorage.getItem("token");
@@ -18,18 +21,21 @@ class Auth {
       alert(error);
     }
   }
+
   static async deauthenticateUser() {
     try {
       await AsyncStorage.removeItem("token");
-    } catch (error) {}
+    } catch (error) { }
   }
+
   static async getToken() {
     try {
       const value = await AsyncStorage.getItem("token");
       if (value !== null) {
         return value;
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 }
+
 export default Auth;
