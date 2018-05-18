@@ -1,1 +1,4 @@
-export default "http://10.17.3.180:3000";
+const API_IP = "192.168.178.54";
+const AUTH_API = "http://" + API_IP + ":3000/auth";
+
+export default AUTH_API;

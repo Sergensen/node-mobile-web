@@ -5,105 +5,110 @@ import Auth from '../modules/Auth';
 import url from '../constants/config';
 
 export default class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      name: '',
-      email: '',
-      password: '',
+    this.state = {
+      name: "user01",
+      email: "user01@example.com",
+      password: "password",
       signup: false
-    }
+    };
   }
-  toggleSignUp(){
+
+  toggleSignUp() {
     this.setState((prevState, props) => {
-      return {signup: !prevState.signup}
+      return { signup: !prevState.signup };
     });
   }
-  login() {
-    const { email, password, name } = this.state;
-    axios({
-      method: 'post',
-      url: url+'/auth/login',
-      data: "email="+email+"&password="+password+"&name="+name,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
-    .then((res) => this.success(res))
-    .catch((error) => alert(error));
-  }
-  success(res){
-    Auth.authenticateUser(res.data.user).then(async (response) => {
+
+  success(res) {
+    Auth.authenticateUser(res.data.user).then(async response => {
       this.props.toggleAuthenticateStatus();
     });
   }
-  signup(){
+
+  sendRequest(path) {
     const { email, password, name } = this.state;
-    axios({
-      method: 'post',
-      url: url+'/auth/signup',
-      data: "email="+email+"&password="+password+"&name="+name,
+    return axios({
+      method: "POST",
+      url: AUTH_API + path,
+      data: "email=" + email + "&password=" + password + "&name=" + name,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": "application/x-www-form-urlencoded"
       }
-    })
-    .then((res) => this.login())
-    .catch((error) => alert(error));
+    });
   }
+
+  login() {
+    this.sendRequest("/login")
+      .then(this.success)
+      .catch(alert);
+  }
+
+  signup() {
+    this.sendRequest("/signup")
+      .then(this.login)
+      .catch(alert);
+  }
+
   render() {
     const { user } = this.props;
     const { signup } = this.state;
-    const login = !signup?(
+    const loginBtn = !signup ? (
       <TouchableOpacity style={styles.input} onPress={this.login.bind(this)}>
-        <Text style={styles.btn}>
-        Login
-        </Text>
+        <Text style={styles.btn}>Login</Text>
       </TouchableOpacity>
-    ):(
+    ) : (
       <TouchableOpacity style={styles.input} onPress={this.signup.bind(this)}>
-        <Text style={styles.btn}>
-        Signup
-        </Text>
+        <Text style={styles.btn}>Signup</Text>
       </TouchableOpacity>
     );
-    const signupBtn = !signup?(
-      <TouchableOpacity style={styles.input} onPress={this.toggleSignUp.bind(this)}>
-        <Text style={styles.btn}>
-        Or signup
-        </Text>
+    const signupBtn = !signup ? (
+      <TouchableOpacity
+        style={styles.input}
+        onPress={this.toggleSignUp.bind(this)}
+      >
+        <Text style={styles.btn}>Or signup</Text>
       </TouchableOpacity>
-    ):(
-      <TouchableOpacity style={styles.input} onPress={this.toggleSignUp.bind(this)}>
-        <Text style={styles.btn}>
-        Back
-        </Text>
+    ) : (
+      <TouchableOpacity
+        style={styles.input}
+        onPress={this.toggleSignUp.bind(this)}
+      >
+        <Text style={styles.btn}>Back</Text>
       </TouchableOpacity>
     );
-    const userName = signup?(
-        <TextInput
+    const userName = signup ? (
+      <TextInput
         style={styles.text}
-          placeholder=" type name"
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-        />):"";
+        placeholder=" type name"
+        onChangeText={name => this.setState({ name })}
+        value={this.state.name}
+      />
+    ) : (
+      ""
+    );
+
     return (
-      <View style={styles.main}>
-        {userName}
+      <View>
+        <Text>{userName}</Text>
         <TextInput
-        style={styles.text}
+          style={styles.text}
           placeholder=" type email"
-          onChangeText={(email) => this.setState({email})}
+          onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
         <TextInput
           style={styles.text}
           placeholder=" type password"
-          onChangeText={(password) => this.setState({password})}
+          onChangeText={password => this.setState({ password })}
           value={this.state.password}
           secureTextEntry={true}
         />
-        {login}
-        {signupBtn}
+        <View>
+          {loginBtn}
+          {signupBtn}
+        </View>
       </View>
     );
   }
@@ -111,23 +116,20 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    height: 60,
-    fontSize: 20,
     backgroundColor: "#C2C2C2",
+    color: "#000000",
+    fontSize: 20,
+    height: 60,
     justifyContent: "center"
   },
   input: {
+    alignItems: "center",
+    backgroundColor: "#CCCCCC",
     height: 60,
-    backgroundColor: "#B4B4B4",
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "center"
   },
   btn: {
-    fontSize: 30,
-    color: "white"
-  },
-  main: {
-    justifyContent: "center",
-    backgroundColor: "white"
+    color: "white",
+    fontSize: 30
   }
 });
