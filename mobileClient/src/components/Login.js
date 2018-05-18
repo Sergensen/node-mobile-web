@@ -2,23 +2,23 @@ import React, { Component } from "react";
 import axios from "axios";
 import {
   StyleSheet,
-  TouchableOpacity,
   Text,
   TextInput,
+  TouchableOpacity,
   View
 } from "react-native";
 import Auth from "../modules/Auth";
 
-const API_IP = "192.168.178.36";
-const AUTH_API = "http://" + AUTH_API + ":3000/auth";
+const API_IP = "192.168.178.54";
+const AUTH_API = "http://" + API_IP + ":3000/auth";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      password: "",
+      name: "user01",
+      email: "user01@example.com",
+      password: "password",
       signup: false
     };
   }
@@ -48,13 +48,13 @@ export default class Login extends Component {
   }
 
   login() {
-    sendRequest("/login")
+    this.sendRequest("/login")
       .then(this.success)
       .catch(alert);
   }
 
   signup() {
-    sendRequest("/signup")
+    this.sendRequest("/signup")
       .then(this.login)
       .catch(alert);
   }
@@ -62,7 +62,7 @@ export default class Login extends Component {
   render() {
     const { user } = this.props;
     const { signup } = this.state;
-    const login = !signup ? (
+    const loginBtn = !signup ? (
       <TouchableOpacity style={styles.input} onPress={this.login.bind(this)}>
         <Text style={styles.btn}>Login</Text>
       </TouchableOpacity>
@@ -94,11 +94,11 @@ export default class Login extends Component {
         value={this.state.name}
       />
     ) : (
-      "No user"
+      ""
     );
 
     return (
-      <View style={styles.main}>
+      <View>
         <Text>{userName}</Text>
         <TextInput
           style={styles.text}
@@ -113,8 +113,10 @@ export default class Login extends Component {
           value={this.state.password}
           secureTextEntry={true}
         />
-        <View>{login}</View>
-        <View>{signupBtn}</View>
+        <View>
+          {loginBtn}
+          {signupBtn}
+        </View>
       </View>
     );
   }
@@ -123,23 +125,19 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   text: {
     backgroundColor: "#C2C2C2",
+    color: "#000000",
     fontSize: 20,
     height: 60,
     justifyContent: "center"
   },
   input: {
     alignItems: "center",
-    backgroundColor: "#B4B4B4",
+    backgroundColor: "#CCCCCC",
     height: 60,
     justifyContent: "center"
   },
   btn: {
     color: "white",
     fontSize: 30
-  },
-  main: {
-    backgroundColor: "#FFFFFF",
-    flex: 1,
-    justifyContent: "center"
   }
 });

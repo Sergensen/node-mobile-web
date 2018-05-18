@@ -10,11 +10,9 @@ import App from './src/containers/App';
 const store = configureStore();
 
 const ReduxApp = () => (
-  <View>
     <Provider store={store}>
       <App />
     </Provider>
-  </View>
 );
 
 export default ReduxApp;

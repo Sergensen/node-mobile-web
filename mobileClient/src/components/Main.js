@@ -26,21 +26,19 @@ export default class Main extends Component {
     const { actions, user } = this.props;
     const { authenticated } = this.state;
     return (
-      // TODO: Style not working on android
       <View style={styles.mainView}>
         <StatusBar hidden />
-        <Text>v1</Text>
         {!this.state.authenticated ? (
           <Login
             toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)}
           />
         ) : (
-          <App
-            toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)}
-            actions={actions}
-            user={user}
-          />
-        )}
+            <App
+              toggleAuthenticateStatus={this.toggleAuthenticateStatus.bind(this)}
+              actions={actions}
+              user={user}
+            />
+          )}
       </View>
     );
   }
