@@ -7,6 +7,8 @@ export default class CameraComponent extends Component {
     super(props);
     this.height = Dimensions.get('window').height;
     this.width = Dimensions.get('window').width;
+    this.newWidth = this.height * (3 / 4);
+    this.widthOffset = -((this.newWidth - this.width) / 2);
 
     this.state = {
       hasCameraPermission: null,
@@ -51,8 +53,15 @@ export default class CameraComponent extends Component {
           ratio='4:3'
           ref={ref => { this.camera = ref; }}
           style={{
-            width: this.height * (3 / 4),
-            height: this.height
+            width: this.newWidth,
+            height: this.height,
+            position: "absolute",
+            left: this.widthOffset,
+            right: this.widthOffset,
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
           }}
           type={this.state.type}>
           <View style={styles.mainView}>
