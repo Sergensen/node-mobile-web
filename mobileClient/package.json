@@ -1,7 +1,9 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "exp": "exp"
+    "exp": "exp",
+    "start": "exp start",
+    "android": "exp android"
   },
   "private": true,
   "dependencies": {

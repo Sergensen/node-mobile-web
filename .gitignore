@@ -2,3 +2,4 @@
 /desktopClient/node_modules
 /mobileClient/node_modules
 /server/node_modules
+mobileClient/.vscode/tasks.json

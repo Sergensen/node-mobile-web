@@ -6,8 +6,10 @@ export default class CameraComponent extends Component {
   constructor(props) {
     super(props);
     this.height = Dimensions.get('window').height;
+    this.width = this.height * (3 / 4);
     this.width = Dimensions.get('window').width;
-    this.newWidth = this.height * (3 / 4);
+    this.height = this.width * (4 / 3);
+
     this.widthOffset = -((this.newWidth - this.width) / 2);
 
     this.state = {
@@ -49,22 +51,18 @@ export default class CameraComponent extends Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <Camera
-          ratio='4:3'
-          ref={ref => { this.camera = ref; }}
-          style={{
-            width: this.newWidth,
-            height: this.height,
-            position: "absolute",
-            left: this.widthOffset,
-            right: this.widthOffset,
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-          }}
-          type={this.state.type}>
-          <View style={styles.mainView}>
+        <View style={styles.mainView}>
+          <Camera
+            ratio='4:3'
+            ref={ref => { this.camera = ref; }}
+            style={{
+              width: this.width,
+              height: this.height,
+            }}
+            type={this.state.type}>
+
+          </Camera>
+          <View style={styles.buttons}>
             <TouchableOpacity
               style={styles.flipButton}
               onPress={this.toggleCamera.bind(this)}>
@@ -80,34 +78,34 @@ export default class CameraComponent extends Component {
               source={{ uri: this.state.image }}
             />
           </View>
-        </Camera>
+        </View>
       );
     }
   }
 }
 
 const styles = StyleSheet.create({
-  camera: {
-    flex: 1
-  },
   mainView: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: 'transparent',
+    justifyContent: 'center'
+  },
+  buttons: {
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly'
   },
   flipButton: {
-    flex: 0.2,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    backgroundColor: 'grey'
   },
   takeButton: {
-    flex: 0.2,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    backgroundColor: 'grey'
   },
   text: {
     fontSize: 18,
-    marginBottom: 10,
-    color: 'white'
+    margin: 10,
+    color: 'black',
   }
 });
