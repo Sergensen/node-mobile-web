@@ -39,8 +39,13 @@ export default class CameraComponent extends Component {
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
-
+    const { hasCameraPermission, image } = this.state;
+    const picture = image?(
+      <Image
+        style={{ width: 100 * (3 / 4), height: 100 }}
+        source={{ uri: image }}
+      />
+    ):"";
     if (hasCameraPermission === null) {
       return <View />
     } else if (hasCameraPermission === false) {
@@ -66,10 +71,7 @@ export default class CameraComponent extends Component {
               onPress={this.takePicture.bind(this)}>
               <Text style={styles.text}>Take</Text>
             </TouchableOpacity>
-            <Image
-              style={{ width: 100 * (3 / 4), height: 100 }}
-              source={{ uri: this.state.image }}
-            />
+            {picture}
           </View>
         </Camera>
       );
