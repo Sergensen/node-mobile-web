@@ -1,12 +1,12 @@
 import axios from 'axios';
 import Auth from './Auth';
-const URL = "http://192.168.178.77:3000/";
+import AUTH_API from '../constants/config.js';
 
 export const getUsers = (name) => {
   Auth.getToken().then((response)=>{
     axios({
       method: 'get',
-      url: URL+'api/user/'+name,
+      url: AUTH_API+'/api/user/'+name,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'bearer ' + response
@@ -15,7 +15,7 @@ export const getUsers = (name) => {
     .then((res) => {
       return res.data.message;
     })
-    .catch((error) => alert(error));
+    .catch((error) => alert("1"+error));
   });
 }
 

@@ -5,17 +5,16 @@ class Auth {
     try {
       await AsyncStorage.setItem("token", token);
     } catch (error) {
-      alert(1)
       console.log(error);
       alert(error);
-      alert(2)
     }
   }
 
   static async isUserAuthenticated() {
     try {
       const value = await AsyncStorage.getItem("token");
-      return value !== null;
+      if(value) return true;
+      return false;
     } catch (error) {
       console.log(error);
       alert(error);
