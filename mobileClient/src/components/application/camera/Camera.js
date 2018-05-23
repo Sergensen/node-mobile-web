@@ -22,6 +22,14 @@ export default class CameraComponent extends Component {
     });
   }
 
+  deleteImage() {
+    this.setState((prev, props) => {
+      return {
+        image: null
+      }
+    });
+  }
+
   toggleCamera() {
     if (this.state.type === Camera.Constants.Type.back)
       this.setState({ type: Camera.Constants.Type.front });
@@ -40,24 +48,36 @@ export default class CameraComponent extends Component {
 
   render() {
     const { hasCameraPermission, image } = this.state;
-    const picture = image?(
-      <Image
-        style={{ width: 100 * (3 / 4), height: 100 }}
-        source={{ uri: image }}
-      />
-    ):"";
     if (hasCameraPermission === null) {
       return <View />
     } else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
+    } else if (image){
+      return (
+        <View style={styles.camera}>
+          <Image
+            style={{
+              width: this.width,
+              height: this.width*(4/3),
+              transform: [{scaleX: -1}]
+            }}
+            source={{ uri: image }}
+          />
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={this.deleteImage.bind(this)}>
+            <Text style={styles.delete}>Delete</Text>
+          </TouchableOpacity>
+        </View>
+      );
     } else {
       return (
         <Camera
           ratio='4:3'
           ref={ref => { this.camera = ref; }}
           style={{
-            width: this.height * (3 / 4),
-            height: this.height
+            width: this.width,
+            height: this.width*(4/3)
           }}
           type={this.state.type}>
           <View style={styles.mainView}>
@@ -71,7 +91,6 @@ export default class CameraComponent extends Component {
               onPress={this.takePicture.bind(this)}>
               <Text style={styles.text}>Take</Text>
             </TouchableOpacity>
-            {picture}
           </View>
         </Camera>
       );
@@ -98,9 +117,18 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
   },
+  deleteButton: {
+    flex: 1,
+    alignItems: 'center',
+  },
   text: {
     fontSize: 18,
     marginBottom: 10,
     color: 'white'
+  },
+  delete: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: 'black'
   }
 });
