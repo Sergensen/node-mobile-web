@@ -48,28 +48,20 @@ export default class CameraComponent extends Component {
 
   render() {
     const { hasCameraPermission, image } = this.state;
+    const img = image?(
+      <Image
+        style={{
+          width: 150,
+          height: 150*(4/3),
+          transform: [{scaleX: -1}]
+        }}
+        source={{ uri: image }}
+      />
+    ):"";
     if (hasCameraPermission === null) {
       return <View />
     } else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
-    } else if (image){
-      return (
-        <View style={styles.camera}>
-          <Image
-            style={{
-              width: this.width,
-              height: this.width*(4/3),
-              transform: [{scaleX: -1}]
-            }}
-            source={{ uri: image }}
-          />
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={this.deleteImage.bind(this)}>
-            <Text style={styles.delete}>Delete</Text>
-          </TouchableOpacity>
-        </View>
-      );
     } else {
       return (
         <Camera
@@ -80,6 +72,7 @@ export default class CameraComponent extends Component {
             height: this.width*(4/3)
           }}
           type={this.state.type}>
+          {img}
           <View style={styles.mainView}>
             <TouchableOpacity
               style={styles.flipButton}
@@ -90,6 +83,11 @@ export default class CameraComponent extends Component {
               style={styles.takeButton}
               onPress={this.takePicture.bind(this)}>
               <Text style={styles.text}>Take</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={this.deleteImage.bind(this)}>
+              <Text style={styles.text}>Delete</Text>
             </TouchableOpacity>
           </View>
         </Camera>
@@ -118,7 +116,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   deleteButton: {
-    flex: 1,
+    flex: 0.2,
+    alignSelf: 'flex-end',
     alignItems: 'center',
   },
   text: {
