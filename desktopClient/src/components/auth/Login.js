@@ -16,14 +16,18 @@ export default class Login extends Component {
     this.setState({[e.target.id]: e.target.value});
   }
   render() {
-    const { email, password } = this.state;
+    const { email, password, error } = this.state;
     return (
-      <div>
-        <input style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
-        <input style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
+      <div style={error?{border:"1px solid red"}:{}}>
+        <p style={styles.error}>{error}</p>
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
         <input style={styles.button} id="login" onClick={this.login.bind(this)} type="button" value="Login" />
       </div>
     );
+  }
+  onKeyUp(e){
+    if(e.key==="Enter") this.login();
   }
   login(e) {
     const { email, password } = this.state;
@@ -31,7 +35,7 @@ export default class Login extends Component {
   }
   handleLogin(feedback){
     const { error, res} = feedback;
-    if(error) this.setState({error});
+    if(error) this.setState({error: "User not exists!"});
     if(!error) this.success(res);
   }
   success(res){
@@ -48,6 +52,12 @@ const styles = {
     boxSizing: "border-box",
     height: "50px",
     backgroundColor: "white"
+  },
+  error: {
+    width: "100%",
+    color: "red",
+    fontFamily: "arial",
+    textAlign: "center"
   },
   button: {
     width: "100%",

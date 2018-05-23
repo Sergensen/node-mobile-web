@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { auth } from '../../modules/Api';
+import Auth from '../../modules/Auth';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -17,25 +18,29 @@ export default class Signup extends Component {
     this.setState({[e.target.id]: e.target.value});
   }
   render() {
-    const { email, password, name, surname, username } = this.state;
+    const { email, password, name, surname, username, error } = this.state;
     return (
-      <div>
-        <input style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
-        <input style={styles.input} id="username" onChange={this.onChange.bind(this)} type="text" placeholder="Type username..." value={username} />
-        <input style={styles.input} id="name" onChange={this.onChange.bind(this)} type="text" placeholder="Type name..." value={name} />
-        <input style={styles.input} id="surname" onChange={this.onChange.bind(this)} type="text" placeholder="Type surname..." value={surname} />
-        <input style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
+      <div style={error?{border:"1px solid red"}:{}}>
+        <p style={styles.error}>{error}</p>
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="email" onChange={this.onChange.bind(this)} type="email" placeholder="Type email..." value={email} />
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="username" onChange={this.onChange.bind(this)} type="text" placeholder="Type username..." value={username} />
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="name" onChange={this.onChange.bind(this)} type="text" placeholder="Type name..." value={name} />
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="surname" onChange={this.onChange.bind(this)} type="text" placeholder="Type surname..." value={surname} />
+        <input onKeyUp={this.onKeyUp.bind(this)} style={styles.input} id="password" onChange={this.onChange.bind(this)} type="password" placeholder="Type password..." value={password} />
         <input style={styles.button} id="signup" onClick={this.signup.bind(this)} type="button" value="Create account!" />
       </div>
     );
   }
+  onKeyUp(e){
+    if(e.key==="Enter") this.signup();
+  }
   signup(e) {
     const { email, name, username, surname, password } = this.state;
-    auth("signup", this.handleLogin.bind(this), email, password, name, surname, username);
+    if(email&&name&&username&&surname&&password) auth("signup", this.handleLogin.bind(this), email, password, name, surname, username);
   }
   handleLogin(feedback){
     const { error, res} = feedback;
-    if(error) this.setState({error});
+    if(error) this.setState({error:"Check your data!"});
     if(!error) this.success(res);
   }
   success(res){
@@ -52,6 +57,12 @@ const styles = {
     boxSizing: "border-box",
     height: "50px",
     backgroundColor: "white"
+  },
+  error: {
+    width: "100%",
+    color: "red",
+    fontFamily: "arial",
+    textAlign: "center"
   },
   button: {
     width: "100%",

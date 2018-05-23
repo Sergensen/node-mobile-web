@@ -49,13 +49,13 @@ export default class Requests extends Component {
     const { requests } = this.props;
     const out = [];
     for(let key in requests){
-      const { name, email, id } = requests[key];
+      const { name, email, _id } = requests[key];
       out.push(
         <div key={key} style={styles.element}>
           <p style={styles.data}>{name}</p>
           <p style={styles.data}>{email}</p>
-          <button id={id} onClick={this.addUser.bind(this)} style={styles.button}>{"Add"}</button>
-          <button id={id} onClick={this.deleteUser.bind(this)} style={styles.button}>{"Delete"}</button>
+          <button id={_id} onClick={this.addUser.bind(this)} style={styles.button}>{"Add"}</button>
+          <button id={_id} onClick={this.deleteUser.bind(this)} style={styles.button}>{"Delete"}</button>
         </div>
       );
     }
